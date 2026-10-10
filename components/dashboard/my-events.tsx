@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
@@ -78,6 +78,15 @@ export function MyEvents() {
     email: 'andipratama@email.com',
     phone: '0812 3456 7890',
   })
+
+  useEffect(() => {
+    const saved = localStorage.getItem('eventura-profile')
+    if (saved) {
+      try {
+        setProfile(JSON.parse(saved))
+      } catch (e) {}
+    }
+  }, [])
 
   const upcoming = bookings.filter((b) => (getEventById(b.eventId)?.endDate ?? '') >= DEMO_TODAY)
   const done = [...bookings.filter((b) => (getEventById(b.eventId)?.endDate ?? '') < DEMO_TODAY), ...PAST_BOOKINGS]
@@ -243,11 +252,13 @@ export function MyEvents() {
             onSubmit={(e) => {
               e.preventDefault()
               const fd = new FormData(e.currentTarget)
-              setProfile({
+              const newProfile = {
                 name: fd.get('name') as string,
                 email: fd.get('email') as string,
                 phone: fd.get('phone') as string,
-              })
+              }
+              setProfile(newProfile)
+              localStorage.setItem('eventura-profile', JSON.stringify(newProfile))
               alert('Profil berhasil diperbarui!')
             }}
           >
