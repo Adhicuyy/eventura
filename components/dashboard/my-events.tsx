@@ -73,6 +73,11 @@ export function MyEvents() {
   const [section, setSection] = useState<SectionId>(initial)
   const [tab, setTab] = useState<'upcoming' | 'done'>('upcoming')
   const { bookings, favorites } = useAppStore()
+  const [profile, setProfile] = useState({
+    name: 'Andi Pratama',
+    email: 'andipratama@email.com',
+    phone: '0812 3456 7890',
+  })
 
   const upcoming = bookings.filter((b) => (getEventById(b.eventId)?.endDate ?? '') >= DEMO_TODAY)
   const done = [...bookings.filter((b) => (getEventById(b.eventId)?.endDate ?? '') < DEMO_TODAY), ...PAST_BOOKINGS]
@@ -85,8 +90,8 @@ export function MyEvents() {
         <div className="flex items-center gap-3 border-b pb-4">
           <Image src="/images/avatar.png" alt="" width={48} height={48} className="size-12 rounded-full object-cover" />
           <div className="min-w-0">
-            <p className="truncate font-semibold">Andi Pratama</p>
-            <p className="truncate text-xs text-muted-foreground">andipratama@email.com</p>
+            <p className="truncate font-semibold">{profile.name}</p>
+            <p className="truncate text-xs text-muted-foreground">{profile.email}</p>
           </div>
         </div>
         <nav aria-label="Menu akun" className="-mx-1 mt-3 flex gap-1 overflow-x-auto px-1 lg:flex-col">
@@ -233,22 +238,36 @@ export function MyEvents() {
         )}
 
         {section === 'pengaturan' && (
-          <form className="mt-5 grid max-w-md gap-4" onSubmit={(e) => e.preventDefault()}>
+          <form
+            className="mt-5 grid max-w-md gap-4"
+            onSubmit={(e) => {
+              e.preventDefault()
+              const fd = new FormData(e.currentTarget)
+              setProfile({
+                name: fd.get('name') as string,
+                email: fd.get('email') as string,
+                phone: fd.get('phone') as string,
+              })
+              alert('Profil berhasil diperbarui!')
+            }}
+          >
             {[
-              ['Nama Lengkap', 'Andi Pratama', 'text'],
-              ['Email', 'andipratama@email.com', 'email'],
-              ['Nomor Telepon', '0812 3456 7890', 'tel'],
-            ].map(([label, value, type]) => (
+              ['Nama Lengkap', profile.name, 'text', 'name'],
+              ['Email', profile.email, 'email', 'email'],
+              ['Nomor Telepon', profile.phone, 'tel', 'phone'],
+            ].map(([label, value, type, name]) => (
               <label key={label} className="flex flex-col gap-1.5 text-xs font-semibold">
-                {label}
+                {label as string}
                 <input
-                  type={type}
-                  defaultValue={value}
+                  name={name as string}
+                  type={type as string}
+                  defaultValue={value as string}
+                  required
                   className="h-10 rounded-lg border px-3 text-sm font-normal outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20"
                 />
               </label>
             ))}
-            <button type="submit" className="h-10 w-fit rounded-lg bg-primary px-5 text-sm font-semibold text-primary-foreground">
+            <button type="submit" className="h-10 w-fit rounded-lg bg-primary px-5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors">
               Simpan Perubahan
             </button>
           </form>
