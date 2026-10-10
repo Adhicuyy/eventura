@@ -69,7 +69,8 @@ function BookingRow({ booking, done }: { booking: Booking; done?: boolean }) {
 
 export function MyEvents() {
   const params = useSearchParams()
-  const initial = (SECTIONS.find((s) => s.id === params.get('section'))?.id ?? 'event-saya') as SectionId
+  const sectionParam = params.get('section')
+  const initial = (SECTIONS.find((s) => s.id === sectionParam)?.id ?? 'event-saya') as SectionId
   const [section, setSection] = useState<SectionId>(initial)
   const [tab, setTab] = useState<'upcoming' | 'done'>('upcoming')
   const { bookings, favorites } = useAppStore()
@@ -79,6 +80,15 @@ export function MyEvents() {
     phone: '0812 3456 7890',
   })
 
+  // Sync state with URL params
+  useEffect(() => {
+    if (sectionParam) {
+      const found = SECTIONS.find((s) => s.id === sectionParam)?.id
+      if (found) setSection(found)
+    }
+  }, [sectionParam])
+
+  // Persist profile
   useEffect(() => {
     const saved = localStorage.getItem('eventura-profile')
     if (saved) {
