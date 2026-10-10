@@ -203,46 +203,22 @@ export function MyEvents() {
           ))}
 
         {section === 'riwayat' && (
-          <div className="mt-5">
-            {/* Tampilan Mobile (Card) */}
-            <div className="flex flex-col gap-3 md:hidden">
-              {all.map((b) => (
-                <div key={b.code} className="flex flex-col gap-2 rounded-xl border bg-card p-3 shadow-sm">
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            {all.map((b) => (
+              <div key={b.code} className="flex flex-col justify-between gap-3 rounded-xl border bg-card p-4 shadow-sm transition-hover hover:border-primary/50">
+                <div>
                   <div className="flex items-start justify-between gap-2">
-                    <span className="font-semibold">{getEventById(b.eventId)?.name}</span>
-                    <span className="shrink-0 font-bold text-brand">{formatRupiah(b.total)}</span>
+                    <h3 className="font-semibold leading-tight">{getEventById(b.eventId)?.name}</h3>
+                    <span className="shrink-0 rounded-full bg-brand/10 px-2.5 py-0.5 text-xs font-bold text-brand">{formatRupiah(b.total)}</span>
                   </div>
-                  <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <span className="font-mono bg-secondary px-1.5 py-0.5 rounded-md">{b.code}</span>
-                    <span>{b.bookedAt}</span>
-                  </div>
+                  <p className="mt-1 text-xs text-muted-foreground">{getEventById(b.eventId)?.time} • {b.quantity} Tiket</p>
                 </div>
-              ))}
-            </div>
-
-            {/* Tampilan Desktop (Tabel) */}
-            <div className="hidden md:block overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <thead className="text-xs text-muted-foreground">
-                  <tr className="border-b">
-                    <th className="py-2 font-medium">Kode</th>
-                    <th className="py-2 font-medium">Event</th>
-                    <th className="py-2 font-medium">Tanggal Pesan</th>
-                    <th className="py-2 text-right font-medium">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {all.map((b) => (
-                    <tr key={b.code} className="border-b last:border-0">
-                      <td className="py-3 text-xs font-mono text-muted-foreground">{b.code}</td>
-                      <td className="py-3 font-medium">{getEventById(b.eventId)?.name}</td>
-                      <td className="py-3 text-muted-foreground">{b.bookedAt}</td>
-                      <td className="py-3 text-right font-semibold text-brand">{formatRupiah(b.total)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                <div className="flex items-center justify-between border-t pt-3 mt-1 text-xs text-muted-foreground">
+                  <span className="font-mono font-medium">{b.code}</span>
+                  <span className="flex items-center gap-1"><CalendarDays className="size-3" /> {b.bookedAt}</span>
+                </div>
+              </div>
+            ))}
           </div>
         )}
 
