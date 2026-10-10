@@ -113,7 +113,7 @@ export function MyEvents() {
             <p className="truncate text-xs text-muted-foreground">{profile.email}</p>
           </div>
         </div>
-        <nav aria-label="Menu akun" className="-mx-1 mt-3 flex gap-1 overflow-x-auto px-1 lg:flex-col">
+        <nav aria-label="Menu akun" className="mt-4 flex flex-wrap gap-2 lg:flex-col">
           {SECTIONS.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
@@ -193,7 +193,7 @@ export function MyEvents() {
 
         {section === 'favorit' &&
           (favorites.length ? (
-            <ul className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <ul className="mt-5 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
               {favorites.map((id) => {
                 const e = getEventById(id)
                 return e ? (
