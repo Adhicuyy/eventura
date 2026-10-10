@@ -113,7 +113,7 @@ export function MyEvents() {
             <p className="truncate text-xs text-muted-foreground">{profile.email}</p>
           </div>
         </div>
-        <nav aria-label="Menu akun" className="mt-4 flex flex-wrap gap-2 lg:flex-col">
+        <nav aria-label="Menu akun" className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:flex lg:flex-col">
           {SECTIONS.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
@@ -197,8 +197,8 @@ export function MyEvents() {
               {favorites.map((id) => {
                 const e = getEventById(id)
                 return e ? (
-                  <li key={id}>
-                    <EventCard event={e} />
+                  <li key={id} className="flex h-full flex-col">
+                    <EventCard event={e} className="flex-1" />
                   </li>
                 ) : null
               })}

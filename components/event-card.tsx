@@ -5,9 +5,9 @@ import { CategoryBadge } from '@/components/category-badge'
 import { FavoriteButton } from '@/components/favorite-button'
 import { formatDateRange, formatRupiah, locationLabel, minPrice, type EventItem } from '@/lib/events'
 
-export function EventCard({ event }: { event: EventItem }) {
+export function EventCard({ event, className }: { event: EventItem; className?: string }) {
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border bg-card shadow-sm transition-shadow hover:shadow-md">
+    <article className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border bg-card shadow-sm transition-shadow hover:shadow-md ${className ?? ''}`}>
       <div className="relative aspect-[4/3] overflow-hidden">
         <Image
           src={event.image || '/placeholder.svg'}
